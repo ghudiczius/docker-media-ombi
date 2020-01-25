@@ -16,4 +16,4 @@ VOLUME /data
 WORKDIR /opt/ombi
 
 EXPOSE 3579
-ENTRYPOINT ["/opt/ombi/Ombi", "--port=3579", "--storage=/data"]
+ENTRYPOINT ["/opt/ombi/Ombi", "--host=http://*:3579", "--storage=/data"]
