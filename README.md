@@ -1,11 +1,11 @@
 # Ombi
 
-Simple docker image for Ombi without any bloat, built on the official debian image. Ombi runs as user `ombi` with `uid` and `gid` 3579.
+Simple docker image for Ombi without any bloat, built on the official debian image. Ombi runs as user `ombi` with `uid` and `gid` `1000` and listens on port `5000`.
 
 ## Usage
 
 ```sh
 docker run --rm ghudiczius/ombi:<VERSION> \
-  -p 3579:3579 \
+  -p 5000:5000 \
   -v path/to/data:/data
 ```
