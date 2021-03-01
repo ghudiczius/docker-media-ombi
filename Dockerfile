@@ -17,4 +17,5 @@ VOLUME /data
 WORKDIR /opt/ombi
 
 EXPOSE 5000
-ENTRYPOINT ["/opt/ombi/Ombi", "--storage=/data"]
+ENTRYPOINT ["/opt/ombi/Ombi"]
+CMD ["--storage=/data"]
