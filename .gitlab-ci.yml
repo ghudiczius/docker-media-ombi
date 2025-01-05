@@ -2,6 +2,13 @@ variables:
   DOCKER_HUB_IMAGE: "${DOCKER_HUB_USERNAME}/${CI_PROJECT_NAME}"
   VERSION: "4.47.0"
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
 stages:
 - test
 - build
@@ -39,9 +46,9 @@ kaniko:
         }
       }
     }" > /kaniko/.docker/config.json
-  - /kaniko/executor --build-arg="VERSION=${VERSION}" --context="${CI_PROJECT_DIR}" --destination="${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_IID}" --destination="${DOCKER_HUB_IMAGE}:${VERSION}-${CI_PIPELINE_IID}" --dockerfile="${CI_PROJECT_DIR}/Dockerfile"
-  - echo "Successfully published new image ${CI_REGISTRY_IMAGE}:${VERSION}-${CI_PIPELINE_IID}"
-  - echo "Successfully published new image ${DOCKER_HUB_IMAGE}:${VERSION}-${CI_PIPELINE_IID}"
+  - /kaniko/executor --build-arg="VERSION=${VERSION}" --context="${CI_PROJECT_DIR}" --destination="${CI_REGISTRY_IMAGE}:${VERSION}.${CI_PIPELINE_IID}" --destination="${DOCKER_HUB_IMAGE}:${VERSION}.${CI_PIPELINE_IID}" --dockerfile="${CI_PROJECT_DIR}/Dockerfile"
+  - echo "Successfully published new image ${CI_REGISTRY_IMAGE}:${VERSION}.${CI_PIPELINE_IID}"
+  - echo "Successfully published new image ${DOCKER_HUB_IMAGE}:${VERSION}.${CI_PIPELINE_IID}"
   stage: build
   tags:
   - kubernetes
